@@ -1,0 +1,28 @@
+
+name: Package GTA model files
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Package files
+        run: |
+          test -s Ty__2_.dff
+          test -s Ty__2_.txd
+          zip Tyrell-model-originals.zip Ty__2_.dff Ty__2_.txd
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tyrell-model-originals
+          path: Tyrell-model-originals.zip
+          retention-days: 7
